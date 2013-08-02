@@ -38,15 +38,13 @@
 		$cursor = $collection->findOne(array("_id" => new MongoId($_GET['id'])));  //not find()
 		$title = $cursor['title'];
 		$type = $cursor['type'];
-		foreach ($cursor['label'] as $key => $val) {
-			$label=$val.' '.$label;
-		}
+		$label = $cursor['label'];
 		$text = $cursor['text'];
 	} else {
 		//set values to blank
 		$title = isset($_GET['title']) ? trim($_GET['title']) : '';
 		$type = isset($_GET['type']) ? trim($_GET['type']) : '';
-		$label = isset($_GET['label']) ? trim($_GET['label']) : '';
+		$label = isset($_GET['label']) ? trim($_GET['label']) : array();
 		$text = isset($_GET['text']) ? trim($_GET['text']) : '';
 	}
 
@@ -56,6 +54,7 @@
 ?>
 <div class="contents">
 	<h2><?php echo ucfirst($_GET['action']); ?> Blog Content</h2>
+	<p><a href="category.php">Add Types or Labels</a>
 	<form action="commit.php?action=<?php echo $_GET['action']; ?>" method="post" id="form1">
 		<table class="left">
 			<tr>
@@ -64,54 +63,37 @@
 			</tr>
 			<tr>
 				<td> Type </td>
-				<td><input type="text" name="type" value="<?php echo $type; ?>" class="long" />
+				<td><select name="type">
 			<?php
-				$types = $db->command(
-				    array(
-				        "distinct" => "posts",
-				        "key" => "type", 
-				        "query" => array("type" => array('$ne' => 'about'))
-				    )
-				);
-				foreach ($types['values'] as $types) {									
-					echo '<span class="small">' . $types . '&nbsp; </span>';
+				$types = $db->category->find(array("category" => "type"));
+				foreach ($types as $type0) {				
+					if ($type0 == $type) {
+							echo ' <option value="' . $type0['name'] . '" selected="selected"> ';
+					} else {
+						echo ' <option value="' . $type0['name'] . '" > ';				
+					}
+					echo $type0['name'] . ' </option> ';
 				}
 			?>
 				</td>
 			</tr> 
-			<!-- <tr>
+			 <tr>
 				<td> Label </td>
 				<td>
 				<?php
-				/*$labels = $db->command(
-				    array(
-				        "distinct" => "posts",
-				        "key" => "label", 
-				        "query" => array("label" => array('$ne' => 'about'))
-				    )
-				);
-				foreach ($labels['values'] as $labels) {				
-					echo '<input type="checkbox" name="label[]" value="'.$labels.'" />'.$labels.'&nbsp;';
-				}*/
-			?> </td>
-			</tr>  -->
-			 <tr>
-				<td> Label </td>
-				<td><input type="text" name="label" value="<?php echo $label; ?>" class="long" />
-				<?php
-				$labels = $db->command(
-				    array(
-				        "distinct" => "posts",
-				        "key" => "label", 
-				        "query" => array("label" => array('$ne' => 'about'))
-				    )
-				);
-				foreach ($labels['values'] as $labels) {				
-					echo '<span class="small">' . $labels . '&nbsp; </span>';	
+				$labels = $db->category->find(array("category" => "label"));
+				
+				foreach ($labels as $label0) {
+					// [string/...] in array
+					if(in_array($label0['name'], $label)){
+						echo '<input type="checkbox" name="label[]" value="'.$label0['name'].'" checked="checked" />'.$label0['name'].'&nbsp;';
+					} else{
+						echo '<input type="checkbox" name="label[]" value="'.$label0['name'].'" />'.$label0['name'].'&nbsp;';
+					}							
 				}
+				
 			?> </td>
-			</tr> 
-		
+			</tr>  
 			<tr>
 				<td> Content </td>
 				<td><textarea name="text" cols="50" rows="20"><?php echo $text;?></textarea></td>
@@ -159,7 +141,9 @@
 ?>
 
 	</div>
-	<div id="foot" style="clear:both;"></div>
+	<div class="clear"></div>
+	<div id="footer">&copy; 2013</div>
+
 </div>
 </body>
 </html>

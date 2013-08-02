@@ -38,7 +38,7 @@
 	}
 ?>
 <div class="contents" >
-	<h4>OPTIONS</h4>
+	<h3>OPTIONS</h3>
 	
 	<div class="about option">
 		<h5>Change About</h5>
@@ -120,7 +120,6 @@
 
 <?php
 		}
-	//include 'adminfoot.inc.php';
 	}else{
     	header ('Refresh: 1; URL= login.php');
 		echo ' <p> You have not logged in. You will be redirected to login page. </p> ';
@@ -128,8 +127,9 @@
                 'automatically, <a href="login.php" >click here </a> . </p> ';
     }
 ?>
-</div>
 	<div class="clear"></div>
+</div>
+	
 	<div id="footer">&copy; 2013</div>
 </div>
 

@@ -3,15 +3,17 @@
 		<h4>Category</h4>
 		<?php 
 			include 'db.inc.php';
+			/* distinct
 			$types = $db->command(
 				array(
 					"distinct" => "posts",
 					"key" => "type",
 					"query" => array("type" => array('$ne' => 'about'))
 					)
-				);
-			foreach ($types['values'] as $type) {
-				echo '<p><a href="search.php?type='.$type.'">'.$type.'</a></p>';
+				);*/
+			$types = $db->category->find(array("category" => "type"));
+			foreach ($types as $type) {
+				echo '<p><a href="search.php?type='.$type['name'].'">'.$type['name'].'</a></p>';
 			}
 
 		?>
@@ -19,15 +21,9 @@
 	<div class="label side">
 		<h4>Label</h4>
 		<?php 
-			$labels = $db->command(
-				array(
-					"distinct" => "posts",
-					"key" => "label",
-					"query" => array("label" => array('$ne' => 'about'))
-					)
-				);
-			foreach ($labels['values'] as $label) {
-				echo '<p><a href="search.php?label='.$label.'">'.$label.'</a></p>';
+			$labels = $db->category->find(array("category" => "label"));
+			foreach ($labels as $label) {
+				echo '<p><a href="search.php?label='.$label['name'].'">'.$label['name'].'</a></p>';
 			}
 		?>
 	</div>

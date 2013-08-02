@@ -7,28 +7,30 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <title>Blogs</title>
-<!--    <link rel="stylesheet" type="text/css" href="../css/base.css" />  -->
-    <link rel="stylesheet" type="text/css" href="../css/admincommon.css" />
-    <link rel="stylesheet" type="text/css" href="../css/page.css" />
-    <script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+    <title>Update</title>
+    <link rel="stylesheet" type="text/css" href="css/page.css" />
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 </head>
 <body>
-    <div id="nav"><a href="index.php">Blogs</a></div>
-    <div id="search">
-        <form method="get" action="search.php">
-            <label for="search">Search</label>
-<?php
-    echo '<input type="text" name="search" ';
-    if (isset($_GET['search'])) {
-        echo ' value="' . htmlspecialchars($_GET['search']) . '" ';
-    }
-    echo '/>';
-?>
-            <input type="submit" value="Search" />
-        </form>
-    </div>
     <div id="wrap">
+	<div id="head">
+		<div id="banner"><h1><a href="index.php">Blogs</a></h1></div>
+		<div id="search">
+			<form method="get" action="search.php">
+				<label for="search">Search</label>
+				<?php
+					echo '<input type="text" name="search" ';
+					if(isset($_GET['search'])){
+						echo 'value="' . htmlspecialchars($_GET['search']) . '"';
+					}
+					echo '/>';
+				?>
+				<input type="submit" value="Search" />
+			</form>
+		</div>
+        <div class="clear"></div>
+	</div>
+	<div class="contents">
 
 <?php
 	include 'db.inc.php';
@@ -110,11 +112,42 @@
 						echo 'The New User has been added.';
 						header ('Refresh: 1; URL= change.php');
 				}
-			} 
+			}
+			break;
+		case 'addtype':
+		 	$error = array();
+			$name = isset($_POST['name']) ? trim($_POST['name']) : '';
+			if (empty($name)) {
+				$error[] = urlencode('Please enter the type name.');
+			}
+			if(empty($error)){
+				$post = array('name' => $name, 'category' => 'type');
+				$result = $db->category->insert($post);
+				if($result){
+						//echo 'The New type has been added.';
+						header ('Refresh: 0; URL= category.php');
+				}
+			}
+		 	break; 
+		case 'addlabel':
+		 	$error = array();
+			$name = isset($_POST['name']) ? trim($_POST['name']) : '';
+			if (empty($name)) {
+				$error[] = urlencode('Please enter the label name.');
+			}
+			if(empty($error)){
+				$post = array('name' => $name, 'category' => 'label');
+				$result = $db->category->insert($post);
+				if($result){
+						//echo 'The New label has been added.';
+						header ('Refresh: 0; URL= category.php');
+				}
+			}
+		 	break; 
 	}
 ?>
 <?php
-    // include 'adminfoot.inc.php';
+
     }else{
         header ('Refresh: 1; URL= login.php');
         echo ' <p> You have not logged in. You will be redirected to login page. </p> ';
@@ -124,7 +157,6 @@
 ?>
 
     </div>
-    <div id="foot" style="clear:both;">
-    </div>
-</body>
-</html>
+<?php 
+include 'foot.inc.php';
+?>

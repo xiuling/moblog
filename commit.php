@@ -17,12 +17,8 @@
 			if (empty($text)) {
 				$error[] = urlencode('Please enter the content.');
 			}
-			//$label = isset($_POST['label']) ? $_POST['label'] : '';
-			$label = array();
-			$labels = isset($_POST['label']) ? trim($_POST['label']) : '';
-			$label = explode(' ', $labels);
-
-
+			$label = isset($_POST['label']) ? $_POST['label'] : '';
+			var_dump($label);
 			if (empty($label)) {
 				$error[] = urlencode('Please enter the label.');
 			}
@@ -50,10 +46,7 @@
 			if (empty($text)) {
 				$error[] = urlencode('Please enter the text.');
 			}
-			//$label = isset($_POST['label']) ? $_POST['label'] : '';
-			$label = array();
-			$labels = isset($_POST['label']) ? trim($_POST['label']) : '';
-			$label = explode(' ', $labels);
+			$label = isset($_POST['label']) ? $_POST['label'] : '';
 			if (empty($label)) {
 				$error[] = urlencode('Please enter the label.');
 			}
@@ -76,10 +69,11 @@
 			}
 			$type = isset($_POST['type']) ? trim($_POST['type']) : '';
 			$text = isset($_POST['text']) ? trim($_POST['text']) : '';
-			//$label = isset($_POST['label']) ? $_POST['label'] : '';
+			$label = isset($_POST['label']) ? $_POST['label'] : '';
+			/*strine to array
 			$label = array();
 			$labels = isset($_POST['label']) ? trim($_POST['label']) : '';
-			$label = explode(' ', $labels);
+			$label = explode(' ', $labels);*/
 
 			if($_POST['_id']){
 				$post = array('title' => $title, 'text' => $text, 'type' => $type, 'label' => $label, 

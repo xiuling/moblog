@@ -103,11 +103,8 @@ $cursor = $collection->findOne(array("_id" => new MongoId($_GET['id'])));
 		</form>
 	</div>
 </div>
+
 <?php 
 include 'sidebar.php';
+include 'foot.inc.php';
 ?>
-<div class="clear"></div>
-<div id="footer">&copy; 2013</div>
-</div>
-</body>
-</html>

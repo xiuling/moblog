@@ -8,7 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<title>Blogs</title>
 	<link rel="stylesheet" type="text/css" href="css/page.css" />
-	<script type="text/javascript" src="../js/jquery-1.9.1.min.js"></script>
+	<script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
 </head>
 <body>
 <div id="wrap">
@@ -17,19 +17,19 @@
 	<div id="search">
 		<form method="get" action="search.php">
 			<label for="search">Search</label>
-<?php
-	echo '<input type="text" name="search" ';
-	if (isset($_GET['search'])) {
-		echo ' value="' . htmlspecialchars($_GET['search']) . '" ';
-	}
-	echo '/>';
-?>
-			<input type="submit" value="Search" />
-			<div class="clear"></div>
+			<?php
+				echo '<input type="text" name="search" ';
+				if (isset($_GET['search'])) {
+					echo ' value="' . htmlspecialchars($_GET['search']) . '" ';
+				}
+				echo '/>';
+			?>
+			<input type="submit" value="Search" />			
 		</form>
 	</div>
+	<div class="clear"></div>
 </div>	
-<div class="main">
+
 	<div class="contents">
 <?php
 	include 'db.inc.php';
@@ -56,8 +56,7 @@
 ?>
 
 	</div>
-</div>
-	<div class="clear"></div>
-</div>
-</body>
-</html>
+
+<?php
+include 'foot.inc.php';
+?>

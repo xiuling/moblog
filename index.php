@@ -45,8 +45,7 @@ if($_SESSION['username']){
 include 'db.inc.php';
 
 echo '<div class="main">';
-
-$cursor = $collection->find(array('type' => array('$ne' => 'about')));
+$cursor = $collection->find(array( '$and' => array( array('type' => array('$ne' => 'about')), array('status' => array('$ne' => 0) ) ) ) );
 $cursor->sort(array('_id' => -1));
 
 foreach ($cursor as $key => $value) {
@@ -59,49 +58,7 @@ foreach ($cursor as $key => $value) {
 	}
 }
 echo '</div>';
+
+include 'sidebar.php';
+include 'foot.inc.php';
 ?>
-<div id="sidebar">
-	<div class="category side">
-		<h4>Category</h4>
-		<?php 
-			include 'db.inc.php';
-			$types = $db->command(
-				array(
-					"distinct" => "posts",
-					"key" => "type",
-					"query" => array("type" => array('$ne' => 'about'))
-					)
-				);
-			foreach ($types['values'] as $type) {
-				echo '<p><a href="search.php?type='.$type.'">'.$type.'</a></p>';
-			}
-
-		?>
-	</div>
-	<div class="label side">
-		<h4>Label</h4>
-		<?php 
-			$labels = $db->command(
-				array(
-					"distinct" => "posts",
-					"key" => "label",
-					"query" => array("label" => array('$ne' => 'about'))
-					)
-				);
-			foreach ($labels['values'] as $label) {
-				echo '<p><a href="search.php?label='.$label.'">'.$label.'</a></p>';
-			}
-		?>
-	</div>
-	<div class="function side">
-		<h4>Function</h4>
-		<p><a href="login.php">Log in</a></p>
-		<p><a href="logout.php">Log out</a></p>
-	</div>
-</div>
-
-<div class="clear"></div>
-<div id="footer">&copy; 2013</div>
-</div>
-</body>
-</html>
